@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geocaching Tajný Hint</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #000;
+            color: white;
+            padding: 50px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #222;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+        }
+        .countdown {
+            font-size: 40px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .hidden {
+            display: none;
+        }
+        .jumpscare {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        .jumpscare img {
+            width: 80%;
+            max-width: 800px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="main-content">
+        <h1>🕵️‍♂️ Tajný geocaching hint</h1>
+        <p>Odpočítáváme... souřadnice se objeví za:</p>
+        <p class="countdown" id="countdown">10</p>
+    </div>
+
+    <div class="jumpscare hidden" id="jumpscare">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Man_with_Scary_Face.jpg/800px-Man_with_Scary_Face.jpg" alt="Jumpscare">
+    </div>
+
+    <audio id="scream-sound">
+        <source src="https://www.myinstants.com/media/sounds/screaming.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        let count = 10;
+        let countdownElement = document.getElementById("countdown");
+        let jumpscareElement = document.getElementById("jumpscare");
+        let screamSound = document.getElementById("scream-sound");
+
+        let countdown = setInterval(() => {
+            count--;
+            countdownElement.textContent = count;
+            if (count === 0) {
+                clearInterval(countdown);
+                document.getElementById("main-content").innerHTML = "<h1>Připrav se na tajné souřadnice...</h1>";
+                setTimeout(() => {
+                    jumpscareElement.classList.remove("hidden");
+                    screamSound.play();
+                    setTimeout(() => {
+                        location.reload();
+                    }, 5000);
+                }, 2000);
+            }
+        }, 1000);
+    </script>
+
+</body>
+</html>
